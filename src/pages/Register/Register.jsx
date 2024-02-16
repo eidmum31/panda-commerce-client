@@ -1,11 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Providers/Authprovider";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const {createUser}=useContext(AuthContext);
+  const handleRegister=(e)=>{
+    e.preventDefault();
+    const form=e.target;
+    const email=form.email.value;
+    const password=form.password.value;
+    console.log(email,password);
+    createUser(email,password)
+    .then((userCredential) => {
+      
+      const user = userCredential.user;
+      Swal.fire({
+        title: "WELL DONE!",
+        text: "Successfully created account!",
+        icon: "success"
+      });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: errorMessage,
+       
+      });
+    });
+  }
   return (
     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 mx-auto mt-[200px]">
       <h1 className="text-center text-3xl pt-4 font-semibold">Register</h1>
-      <form className="card-body">
+      <form onSubmit={handleRegister} className="card-body">
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>

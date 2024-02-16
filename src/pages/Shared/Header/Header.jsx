@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import panda from "../../../assets/panda.png";
 import { FaCartArrowDown, FaSearch } from "react-icons/fa";
+import { AuthContext } from "../../../Providers/Authprovider";
 const Header = () => {
-  console.log(import.meta.env.VITE_APIKEY);
+  const {cart}=useContext(AuthContext);
   return (
     <div className="navbar  bg-base-300 p-3">
       <div className="navbar-start">
@@ -73,7 +74,7 @@ const Header = () => {
       </div>
       <div className="navbar-end">
         <FaCartArrowDown className="text-4xl me-3"/>
-         <h3 className="rounded-full bg-yellow-400 p-2 text-3xl me-3">{`0`}</h3>
+         <h3 className="rounded-full bg-yellow-400 p-2 text-3xl me-3">{cart.length}</h3>
         <a className="btn">Button</a>
       </div>
     </div>

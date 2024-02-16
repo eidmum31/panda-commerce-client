@@ -6,6 +6,7 @@ const Authprovider = ({ children }) => {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [cart,setCart]=useState(JSON.parse(localStorage.getItem('cart'))||[]);
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -33,6 +34,8 @@ const Authprovider = ({ children }) => {
     createUser,
     loginUser,
     loading,
+    cart,
+    setCart
   };
   return (
     <AuthContext.Provider value={AuthInfo}>{children}</AuthContext.Provider>

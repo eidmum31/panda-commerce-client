@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import panda from "../../../assets/panda.png";
 import { FaCartArrowDown, FaSearch } from "react-icons/fa";
 const Header = () => {
- 
+  console.log(import.meta.env.VITE_APIKEY);
   return (
-    <div className="navbar bg-base-100 bg-base-300 p-3">
+    <div className="navbar  bg-base-300 p-3">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

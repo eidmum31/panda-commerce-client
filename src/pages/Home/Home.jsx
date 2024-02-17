@@ -5,7 +5,7 @@ const Home = () => {
     const [products,setProducts]=useState(null);
     
     useEffect(()=>{
-        const disconnect=()=>fetch('http://127.0.0.1:3000/products').then(res=>res.json()).then(data=>setProducts(data))
+        const disconnect=()=>fetch('https://panda-commerce-server.onrender.com/products').then(res=>res.json()).then(data=>setProducts(data))
         return ()=>disconnect();
     },[])
     return (

@@ -18,7 +18,7 @@ const CheckOut = () => {
       price: totalPrice - discount + shipping,
       status: "pending",
     };
-    fetch(`http://127.0.0.1:3000/orders`, {
+    fetch(`https://panda-commerce-server.onrender.com/orders`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const CheckOut = () => {
       return;
     }
     const promo = e.target.promo.value;
-    fetch(`http://127.0.0.1:3000/promos?promo=${promo}`)
+    fetch(`https://panda-commerce-server.onrender.com/promos?promo=${promo}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.rate) {

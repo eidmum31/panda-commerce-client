@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/Authprovider";
 import Swal from "sweetalert2";
 
 const Login = () => {
   const {loginUser}=useContext(AuthContext);
+  const navigate=useNavigate();
   const handleLogin=(e)=>{
     e.preventDefault();
     const form=e.target;
@@ -15,6 +16,7 @@ const Login = () => {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
+      navigate('/checkout');
       console.log(user);
       // ...
     })

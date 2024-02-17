@@ -2,13 +2,55 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/Authprovider";
 import Cart from "../Cart/Cart";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CheckOut = () => {
+  const navigate = useNavigate();
+  const placeOrder = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const terms = form.terms.checked;
+    if (!terms) {
+      Swal.fire("please agree terms and condition");
+      return;
+    }
+    const data = {
+      price: totalPrice - discount + shipping,
+      status: "pending",
+    };
+    fetch(`http://127.0.0.1:3000/orders`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            title: "Good job!",
+            text: "Your Order Placed successfully!",
+            icon: "success",
+          });
+        }
+      });
+    localStorage.setItem("cart",JSON.stringify([]));
+    setDiscountRatye(0);
+    setDiscount(0);
+    setShipping(0);
+    setTotalPrice(0);
+    setCart([]);
+    navigate('/');
+  };
   const {
+    user,
     cart,
+    setCart,
     totalPrice,
     shipping,
     setShipping,
+    setTotalPrice,
     discountRate,
     setDiscountRatye,
     discount,
@@ -23,6 +65,11 @@ const CheckOut = () => {
 
   const handlePromo = (e) => {
     e.preventDefault();
+    console.log(user);
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     const promo = e.target.promo.value;
     fetch(`http://127.0.0.1:3000/promos?promo=${promo}`)
       .then((res) => res.json())
@@ -31,19 +78,26 @@ const CheckOut = () => {
           setDiscountRatye(parseFloat(data.rate) / 100);
           let dis = totalPrice * (parseFloat(data.rate) / 100);
           setDiscount(dis);
-        }
-        else{
-           Swal.fire(data.message);
+        } else {
+          Swal.fire(data.message);
         }
       });
   };
-
+  console.log
   return (
     <div className="flex flex-col-reverse  lg:flex-row">
       <div className="lg:w-2/3">
         {cart.map((x) => (
           <Cart key={x._id} singleCart={x}></Cart>
         ))}
+        
+       <div>
+          <form onSubmit={placeOrder} className="flex justify-center">
+            <input type="checkbox" name="terms" className="checkbox" />
+            <button className="btn w-10/12 ms-2 me-2 mb-10">Checkout</button>
+          </form>
+       </div>
+        
       </div>
       <div
         className="lg:w-1/3 ms-5 text-xl px-10"

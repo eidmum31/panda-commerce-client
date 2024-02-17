@@ -2,8 +2,12 @@ import React, { useContext, useState } from "react";
 import panda from "../../../assets/panda.png";
 import { FaCartArrowDown, FaSearch } from "react-icons/fa";
 import { AuthContext } from "../../../Providers/Authprovider";
+import { Link } from "react-router-dom";
 const Header = () => {
-  const {cart}=useContext(AuthContext);
+  const {cart,logOut,user}=useContext(AuthContext);
+  const handleLogot=()=>{
+    logOut();
+  }
   return (
     <div className="navbar  bg-base-300 p-3">
       <div className="navbar-start">
@@ -73,9 +77,14 @@ const Header = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <FaCartArrowDown className="text-4xl me-3"/>
+        <Link to={'/checkout'}><FaCartArrowDown className="text-4xl me-3"/></Link>
          <h3 className="rounded-full bg-yellow-400 p-2 text-3xl me-3">{cart.length}</h3>
-        <a className="btn">Button</a>
+        
+        {
+          user&&<><a className="btn disabled me-1">{user?.email}</a>
+                  <a onClick={handleLogot} className="btn disabled">Log Out</a>
+          </>
+        }
       </div>
     </div>
   );

@@ -12,10 +12,10 @@ const Authprovider = ({ children }) => {
   let total = 0;
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const [shipping,setShipping]=useState(0);
-  const [discountRate,setDiscountRatye]=useState(0);
-  const [discount,setDiscount]=useState(0);
+  const [loading, setLoading] = useState(true);
+  const [shipping, setShipping] = useState(0);
+  const [discountRate, setDiscountRatye] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
@@ -24,7 +24,7 @@ const Authprovider = ({ children }) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-  
+
   const loginUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
@@ -55,7 +55,9 @@ const Authprovider = ({ children }) => {
     setShipping,
     discountRate,
     setDiscountRatye,
-    discount,setDiscount
+    discount,
+    setDiscount,
+    
   };
   return (
     <AuthContext.Provider value={AuthInfo}>{children}</AuthContext.Provider>

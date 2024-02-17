@@ -3,9 +3,10 @@ import { AuthContext } from "../../Providers/Authprovider";
 import Swal from "sweetalert2";
 
 const Card = ({product}) => {
-  
-  const {title,price,img}=product;
-  const {cart,setCart}=useContext(AuthContext);
+  product.quantity=1;
+  const {title,price,img,rate}=product;
+  const {cart,setCart,setTotalPrice}=useContext(AuthContext);
+
   const addToCart=()=>{
     //check if the product is already added to cart
     const element=cart.find(x=>x._id==product._id);
@@ -43,8 +44,8 @@ const Card = ({product}) => {
           <h2 className="card-title">{title}</h2>
           
           <div className="card-actions flex justify-between">
-            <h3 className="text-xl font-semibold">{price}</h3>
-            <h3 className="text-xl font-semibold bg-yellow-300 p-1 rounded">15%</h3>
+            <h3 className="text-xl font-semibold">BDT. {price}</h3>
+            <h3 className="text-xl font-semibold bg-yellow-300 p-1 rounded">{rate}%</h3>
           </div>
           <button onClick={addToCart}  className="btn btn-primary">Add to cart</button>
         </div>
